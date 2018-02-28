@@ -5,6 +5,9 @@ const bodyParser = require('body-parser');
 const app = express();
 app.use(bodyParser.json());
 
-app.listen(3000, function () {
-    console.log('Ready');
+
+global.config = require('./config.json');
+
+app.listen(global.config.api.port, function () {
+    console.log('Ready in port ' + global.config.api.port);
 });
