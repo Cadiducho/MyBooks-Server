@@ -7,6 +7,7 @@
   "dependencies": {
     "body-parser": "~1.18.2",
     "express": "~4.15.5",
-    "mysql": "^2.15.0"
+    "mysql": "^2.15.0",
+    "uuid-validate": "0.0.2"
   }
 }
