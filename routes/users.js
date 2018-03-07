@@ -35,17 +35,20 @@ const getLoginResponse = (email, password) => {
                 //Comprobar que el mail exista en la base de datos
                 if (sql_results === undefined) {
                     promise_result({ok: false, message: `El correo electrónico no esta registrado`});
+                    sql_conn.end();
                     return;
                 }
 
                 const sql_result = sql_results[0];
                 if (sql_result === undefined) {
                     promise_result({ok: false, message: `El correo electrónico no esta registrado`});
+                    sql_conn.end();
                     return;
                 }
                 //Comprobar que la contraseña es correcta con el hash guardado
                 if (!crypt.bcrypt_verify(password, sql_result.hash)) {
                     promise_result({ok: false, message: `La contraseña no coincide con el correo electrónico`});
+                    sql_conn.end();
                     return;
                 }
                 //Genera un client token
