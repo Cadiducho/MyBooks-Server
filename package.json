@@ -10,6 +10,7 @@
     "crypto-js": "^3.1.9-1",
     "express": "~4.15.5",
     "mysql": "^2.15.0",
+    "uuid": "^3.2.1",
     "uuid-validate": "0.0.2"
   }
 }
