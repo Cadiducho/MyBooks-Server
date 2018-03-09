@@ -18,6 +18,15 @@ module.exports = (app) => {
            response.json(res);
        })
     });
+    app.get('/v1/authTest', (request, response) => {
+        global.functions.authRequest(request).then(auth => {
+            if (auth.ok) {
+                response.json({ok: true, test: auth})
+            } else {
+                response.json({ok: false, test: auth})
+            }
+        })
+    });
 }
 
 const getLoginResponse = (email, password) => {
