@@ -7,6 +7,15 @@ const e = global.functions = {
             const client_id = request.headers.client_id;
             const client_token = request.headers.client_token;
 
+            if (client_id === undefined) {
+                promise_result({ok: false, message: 'client_id can not be null'});
+                return;
+            }
+            if (client_token === undefined) {
+                promise_result({ok: false, message: 'client_token can not be null'});
+                return;
+            }
+
             const sql_conn = database.connection();
             const query =
                 `SELECT user_uuid, client_hash 
