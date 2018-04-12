@@ -18,15 +18,23 @@ USE `mybooks`;
 
 -- Volcando estructura para tabla mybooks.Books
 CREATE TABLE IF NOT EXISTS `Books` (
-  `owner` varchar(36) NOT NULL,
+  `library` varchar(36) NOT NULL,
   `name` varchar(50) NOT NULL,
   `author` varchar(50) NOT NULL,
   `genre` varchar(50) DEFAULT NULL,
   `year` tinyint(4) DEFAULT NULL,
   `editorial` varchar(50) DEFAULT NULL,
   `language` varchar(50) NOT NULL,
-  UNIQUE KEY `Unique` (`name`,`author`,`language`,`owner`)
+  UNIQUE KEY `Unique` (`name`,`author`,`language`,`library`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='All books';
+
+-- La exportación de datos fue deseleccionada.
+-- Volcando estructura para tabla mybooks.Libraries
+CREATE TABLE IF NOT EXISTS `Libraries` (
+  `id` varchar(36) NOT NULL,
+  `name` varchar(50) NOT NULL,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- La exportación de datos fue deseleccionada.
 -- Volcando estructura para tabla mybooks.Users
@@ -37,7 +45,8 @@ CREATE TABLE IF NOT EXISTS `Users` (
   `email` varchar(50) NOT NULL,
   `hash` char(60) NOT NULL,
   `registered` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `lastActive` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `lastActive` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Tabla de usuarios';
 
 -- La exportación de datos fue deseleccionada.
