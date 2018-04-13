@@ -37,6 +37,15 @@ CREATE TABLE IF NOT EXISTS `Libraries` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- La exportación de datos fue deseleccionada.
+-- Volcando estructura para tabla mybooks.UserLibraries
+CREATE TABLE IF NOT EXISTS `UserLibraries` (
+  `user` varchar(36) NOT NULL,
+  `library` varchar(36) NOT NULL,
+  UNIQUE KEY `library` (`library`),
+  UNIQUE KEY `user` (`user`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Libraries that an user can access';
+
+-- La exportación de datos fue deseleccionada.
 -- Volcando estructura para tabla mybooks.Users
 CREATE TABLE IF NOT EXISTS `Users` (
   `id` varchar(36) NOT NULL,
