@@ -1,0 +1,134 @@
+{
+	"_type": "export",
+	"__export_format": 3,
+	"__export_date": "2018-04-15T14:49:42.094Z",
+	"__export_source": "insomnia.desktop.app:v5.14.9",
+	"resources": [
+		{
+			"_id": "wrk_ae82cb0be67f4ff994c510c45236ee95",
+			"created": 1520245290916,
+			"description": "",
+			"modified": 1520245290916,
+			"name": "MyBooks",
+			"parentId": null,
+			"_type": "workspace"
+		},
+		{
+			"_id": "env_516ca251bb5945059a875d4efc1a0eb8",
+			"color": null,
+			"created": 1520245290970,
+			"data": {},
+			"isPrivate": false,
+			"modified": 1520245290970,
+			"name": "New Environment",
+			"parentId": "wrk_ae82cb0be67f4ff994c510c45236ee95",
+			"_type": "environment"
+		},
+		{
+			"_id": "jar_fb7fbe4b52e94f31933f4cb510a92385",
+			"cookies": [],
+			"created": 1520245290977,
+			"modified": 1520245290977,
+			"name": "Default Jar",
+			"parentId": "wrk_ae82cb0be67f4ff994c510c45236ee95",
+			"_type": "cookie_jar"
+		},
+		{
+			"_id": "req_54bf984c5e0941e3aa1d0deed0a1945a",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"email\": \"cadiducho@gmail.com\",\n\t\"password\": \"password\"\n}"
+			},
+			"created": 1520245303754,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_3617e6f596c949fba61acc1dff75769f",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1520245303754,
+			"method": "POST",
+			"modified": 1520526194223,
+			"name": "Login",
+			"parameters": [],
+			"parentId": "wrk_ae82cb0be67f4ff994c510c45236ee95",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "localhost:3000/v1/user/login",
+			"_type": "request"
+		},
+		{
+			"_id": "req_8fb3767d29c5459490d930985146b658",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"nick\": \"cadiducho2\",\n\t\"name\": \"Dani\", \n\t\"email\": \"cadiduch@dail.cssaom\",\n\t\"password\": \"password\",\n\t\"re_password\": \"password\"\n}"
+			},
+			"created": 1520526184244,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_3617e6f596c949fba61acc1dff75769f",
+					"name": "Content-Type",
+					"value": "application/json"
+				}
+			],
+			"metaSortKey": -1505522628439.5,
+			"method": "POST",
+			"modified": 1520526444169,
+			"name": "Register",
+			"parameters": [],
+			"parentId": "wrk_ae82cb0be67f4ff994c510c45236ee95",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "localhost:3000/v1/user/register",
+			"_type": "request"
+		},
+		{
+			"_id": "req_5a3893a6d9da4fd9bd0813f6d96d4803",
+			"authentication": {},
+			"body": {
+				"mimeType": "application/json",
+				"text": "{\n\t\"nick\": \"cadiducho2\",\n\t\"name\": \"Dani\", \n\t\"email\": \"cadiduch@dail.cssaom\",\n\t\"password\": \"password\",\n\t\"re_password\": \"password\"\n}"
+			},
+			"created": 1520611255938,
+			"description": "",
+			"headers": [
+				{
+					"id": "pair_3617e6f596c949fba61acc1dff75769f",
+					"name": "Content-Type",
+					"value": "application/json"
+				},
+				{
+					"id": "pair_f0b7a35ddfbb46d88dc4a71bcb5eda89",
+					"name": "client_id",
+					"value": "1d7fe0ff2121a6d85ae7624996224cb2192f7fca186f7e98ed0a5713083af913"
+				},
+				{
+					"id": "pair_02ea96a06b204ba694be32471152db71",
+					"name": "client_token",
+					"value": "79993123f0349552735c3061492901f7e07607d68eefac003e8e9b4c5c05a909"
+				}
+			],
+			"metaSortKey": -1498161290782.25,
+			"method": "GET",
+			"modified": 1520611870100,
+			"name": "Auth test",
+			"parameters": [],
+			"parentId": "wrk_ae82cb0be67f4ff994c510c45236ee95",
+			"settingDisableRenderRequestBody": false,
+			"settingEncodeUrl": true,
+			"settingSendCookies": true,
+			"settingStoreCookies": true,
+			"url": "localhost:3000/v1/authTest",
+			"_type": "request"
+		}
+	]
+}
