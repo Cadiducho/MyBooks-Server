@@ -27,6 +27,32 @@ module.exports = (app) => {
             }
         })
     });
+    app.get('v1/libraries', (request, response) => {
+        global.functions.authRequest(request).then(auth => {
+            if (!auth.ok) {
+                response.json(auth);
+                return;
+            }
+            getUserLibraries(auth.user_uuid).then(res => response.json(res));
+        })
+    });
+}
+
+const getUserLibraries = (userid) => {
+    return new Promise((promise_result, promise_error) => {
+        const sql_conn = database.connection();
+        const query = `SELECT library_uuid AS library FROM UserLinkedLibraries WHERE user_uuid=${sql_conn.escape(userid)}`;
+        sql_conn.query(query, (sql_error, sql_results, sql_fields) => {
+            if (sql_results === undefined) {
+                promise_result({ok: false, message: `El usuario no tiene bibliotecas enlazadas`});
+                sql_conn.end();
+                return;
+            }
+
+            promise_result({ok: true, message: sql_results});
+            sql_conn.end();
+        });
+    });
 }
 
 const getLoginResponse = (email, password) => {
