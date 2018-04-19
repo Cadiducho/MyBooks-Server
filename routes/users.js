@@ -1,6 +1,7 @@
 const validators = require('../utils/validators');
 const crypt = require('../utils/crypt');
 const database = require('../utils/database');
+const authenticate = require('../utils/authenticate')
 const uuid = require('uuid');
 
 module.exports = (app) => {
@@ -27,14 +28,8 @@ module.exports = (app) => {
             }
         })
     });
-    app.get('v1/libraries', (request, response) => {
-        global.functions.authRequest(request).then(auth => {
-            if (!auth.ok) {
-                response.json(auth);
-                return;
-            }
-            getUserLibraries(auth.user_uuid).then(res => response.json(res));
-        })
+    app.get('/v1/libraries', authenticate(), (request, response) => {
+        getUserLibraries(request.user_uuid).then(res => response.json(res));
     });
 }
 
