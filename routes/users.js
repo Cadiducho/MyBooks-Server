@@ -44,7 +44,9 @@ const getUserLibraries = (userid) => {
                 return;
             }
 
-            promise_result({ok: true, message: sql_results});
+            let libraries = [];
+            sql_results.forEach((res) => libraries.push(res.library));
+            promise_result({ok: true, message: libraries});
             sql_conn.end();
         });
     });
