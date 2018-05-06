@@ -1,8 +1,8 @@
 -- --------------------------------------------------------
 -- Host:                         127.0.0.1
--- Versión del servidor:         10.1.31-MariaDB - MariaDB Server
+-- Versión del servidor:         10.1.32-MariaDB - MariaDB Server
 -- SO del servidor:              Linux
--- HeidiSQL Versión:             9.5.0.5268
+-- HeidiSQL Versión:             9.5.0.5278
 -- --------------------------------------------------------
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
@@ -21,6 +21,7 @@ CREATE TABLE IF NOT EXISTS `Books` (
   `library` varchar(36) NOT NULL,
   `name` varchar(50) NOT NULL,
   `author` varchar(50) NOT NULL,
+  `user_owner` varchar(36) NOT NULL,
   `genre` varchar(50) DEFAULT NULL,
   `year` tinyint(4) DEFAULT NULL,
   `editorial` varchar(50) DEFAULT NULL,
@@ -33,16 +34,23 @@ CREATE TABLE IF NOT EXISTS `Books` (
 CREATE TABLE IF NOT EXISTS `Libraries` (
   `id` varchar(36) NOT NULL,
   `name` varchar(50) NOT NULL,
+  `description` varchar(140) DEFAULT NULL,
+  `creation` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- La exportación de datos fue deseleccionada.
--- Volcando estructura para tabla mybooks.UserLibraries
-CREATE TABLE IF NOT EXISTS `UserLibraries` (
-  `user` varchar(36) NOT NULL,
-  `library` varchar(36) NOT NULL,
-  UNIQUE KEY `library` (`library`),
-  UNIQUE KEY `user` (`user`)
+-- Volcando estructura para tabla mybooks.UserLinkedLibraries
+CREATE TABLE IF NOT EXISTS `UserLinkedLibraries` (
+  `user_uuid` varchar(36) NOT NULL,
+  `library_uuid` varchar(36) NOT NULL,
+  `can_add` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'User can add new books',
+  `can_edit` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'User can edit (others) books',
+  `can_remove` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'User can remove (others) books',
+  `can_invite` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'User can invite new users',
+  `manager` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'User can edit others permissions',
+  `owner` tinyint(1) NOT NULL DEFAULT '0' COMMENT 'User can remove library and manage managers',
+  PRIMARY KEY (`user_uuid`,`library_uuid`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='Libraries that an user can access';
 
 -- La exportación de datos fue deseleccionada.
@@ -73,7 +81,7 @@ CREATE TABLE IF NOT EXISTS `UserSession` (
 SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_CREATE_USER,NO_ENGINE_SUBSTITUTION';
 DELIMITER //
 CREATE TRIGGER `UserSession_before_update` BEFORE UPDATE ON `UserSession` FOR EACH ROW BEGIN
-	IF NEW.client_token != OLD.client_token THEN
+	IF NEW.client_hash != OLD.client_hash THEN
 		SET NEW.creation = NOW();
 		SET NEW.valid = 1;
    END IF;
