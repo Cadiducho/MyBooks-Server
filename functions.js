@@ -48,5 +48,42 @@ const e = global.functions = {
                 }
             );
         });
+    },
+    isLibraryRegistered: (library_id) => {
+        return new Promise((promise_result, promise_error) => {
+            const sql_conn = database.connection();
+            const query = `
+            SELECT COUNT(*) AS count 
+            FROM Libraries 
+            WHERE id=${sql_conn.escape(library_id)}`;
+            sql_conn.query(query, (sql_error, sql_results, sql_fields) => {
+                promise_result(sql_results[0].count === 1);
+                sql_conn.end();
+            });
+        });
+    },
+    getLibraryInfo: (library_id, user_id) => {
+        return new Promise((promise_result, promise_error) => {
+            const sql_conn = database.connection();
+            const query =
+                `SET @lid=${sql_conn.escape(library_id)};
+                SET @uid=${sql_conn.escape(user_id)};
+                SELECT \`name\`, (SELECT COUNT(*) FROM UserLinkedLibraries WHERE \`library_uuid\`=@lid) as \`users\` FROM Libraries WHERE \`id\`=@lid;
+SELECT \`can_add\`, \`can_edit\`, \`can_remove\`, \`can_invite\`, \`manager\`, \`owner\` FROM \`UserLinkedLibraries\` WHERE \`library_uuid\`=@lid AND \`user_uuid\`=@uid;`;
+            sql_conn.query(query, (sql_error, sql_results, sql_fields) => {
+                console.log(sql_error);
+                let library = sql_results[0][0];
+                if (sql_results[1][0] !== undefined) {
+                    library.can_add = sql_results[1][0].can_add;
+                    library.can_edit = sql_results[1][0].can_edit;
+                    library.can_remove = sql_results[1][0].can_remove;
+                    library.can_invite = sql_results[1][0].can_invite;
+                    library.manager = sql_results[1][0].manager;
+                    library.owner = sql_results[1][0].owner;
+                }
+                promise_result(library);
+                sql_conn.end();
+            });
+        });
     }
 }

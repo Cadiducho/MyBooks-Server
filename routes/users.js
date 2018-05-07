@@ -31,7 +31,7 @@ module.exports = (app) => {
     app.get('/v1/libraries', authenticate(), (request, response) => {
         getUserLibraries(request.user_uuid).then(res => response.json(res));
     });
-}
+};
 
 const getUserLibraries = (userid) => {
     return new Promise((promise_result, promise_error) => {
@@ -50,7 +50,7 @@ const getUserLibraries = (userid) => {
             sql_conn.end();
         });
     });
-}
+};
 
 const getLoginResponse = (email, password) => {
     return new Promise((promise_result, promise_error) => {
@@ -111,7 +111,7 @@ const getLoginResponse = (email, password) => {
             }
         );
     });
-}
+};
 
 const getRegisterResponse = (nick, name, email, password, re_password) => {
     return new Promise((promise_result, promise_error) => {
@@ -204,4 +204,4 @@ const getRegisterResponse = (nick, name, email, password, re_password) => {
             }
         );
     });
-}
+};
