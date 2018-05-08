@@ -11,6 +11,7 @@ const functions = require('./functions');
 global.config = require('./config.json');
 
 require('./routes/users')(app)
+require('./routes/libraries')(app)
 
 app.listen(global.config.api.port, function () {
     console.log('Ready in port ' + global.config.api.port);
