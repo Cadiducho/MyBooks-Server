@@ -71,7 +71,6 @@ const e = global.functions = {
                 SELECT \`name\`, (SELECT COUNT(*) FROM UserLinkedLibraries WHERE \`library_uuid\`=@lid) as \`users\` FROM Libraries WHERE \`id\`=@lid;
 SELECT \`can_add\`, \`can_edit\`, \`can_remove\`, \`can_invite\`, \`manager\`, \`owner\` FROM \`UserLinkedLibraries\` WHERE \`library_uuid\`=@lid AND \`user_uuid\`=@uid;`;
             sql_conn.query(query, (sql_error, sql_results, sql_fields) => {
-                console.log(sql_error);
                 let library = sql_results[0][0];
                 if (sql_results[1][0] !== undefined) {
                     library.can_add = sql_results[1][0].can_add;
@@ -85,5 +84,16 @@ SELECT \`can_add\`, \`can_edit\`, \`can_remove\`, \`can_invite\`, \`manager\`, \
                 sql_conn.end();
             });
         });
-    }
+    },
+    isUserInLibrary: (library_id, user_id) => {
+        return new Promise((promise_result, promise_error) => {
+            const sql_conn = database.connection();
+            const query = `SELECT COUNT(*) AS count FROM UserLinkedLibraries 
+            WHERE user_uuid=${sql_conn.escape(user_id)} AND library_uuid=${sql_conn.escape(library_id)}`;
+            sql_conn.query(query, (sql_error, sql_results, sql_fields) => {
+                promise_result(sql_results[0].count === 1);
+                sql_conn.end();
+            });
+        });
+    },
 }

@@ -1,8 +1,5 @@
 const validators = require('../utils/validators');
-const crypt = require('../utils/crypt');
-const database = require('../utils/database');
 const authenticate = require('../utils/authenticate')
-const uuid = require('uuid');
 
 module.exports = (app) => {
     app.get('/v1/library', authenticate(), (request, response) => {
@@ -18,12 +15,19 @@ module.exports = (app) => {
             return;
         }
 
-        global.functions.isLibraryRegistered(body.library_id).then((exists => {
+        global.functions.isLibraryRegistered(body.library_id).then(exists => {
             if (!exists) {
                 response.json({ valid: false, message: "That library doesn't exist" });
             }
 
-            global.functions.getLibraryInfo(body.library_id, request.user_uuid).then(res => response.json(res));
-        }))
+            global.functions.isUserInLibrary(body.library_id, request.user_uuid).then(isIn => {
+                if (!isIn) {
+                    response.json({valid: false, message: "You don't have permission to see this library"});
+                    return;
+                }
+
+                global.functions.getLibraryInfo(body.library_id, request.user_uuid).then(res => response.json(res));
+            });
+        });
     });
-}
+};
